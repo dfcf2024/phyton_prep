@@ -1,0 +1,28 @@
+#(damos  el nombre del script como el primer argumento)
+#Este bloque condicional comprueba si la cantidad de argumentos #pasados al script es igual a 4.
+#Si no es así, imprime un mensaje de error indicando que se necesitan exactamente 3 parámetros .
+#y sale del script con un código de estado 1
+
+import sys
+
+def main():                               
+    if len(sys.argv) !=4:             
+        print("error: solo 3 parametros")  
+        print("uso:python clase09_ej1.py <parametro1 ><parametro2><parametro3>")    
+        return                               
+    
+    #Aquí se asignan los valores de los argumentos pasados al script a las variables param1, param2 y param3. 
+    #sys.argv es una lista que contiene todos los argumentos pasados al script, donde sys.argv[0] es el nombre del script en sí y 
+    #los argumentos adicionales comienzan desde sys.argv[1].
+    parametro1=sys.argv[1]
+    parametro2=sys.argv[2]
+    parametro3=sys.argv[3]
+
+    #Finalmente, se imprime un mensaje indicando que se han recibido los parámetros, seguido de los valores de cada parámetro.
+    print("Parámetros recibidos:")
+    print("Parámetro 1:", parametro1)
+    print("Parámetro 2:", parametro2)
+    print("Parámetro 3:", parametro3)
+
+    if __name__ == "__main__":
+        main()

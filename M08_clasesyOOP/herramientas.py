@@ -3,93 +3,94 @@ class Herramientas:
         self.lista = lista_numeros
 
     def verifica_primo(self):
-        '''
-        Explico lo que hace la funcion
-        '''
-        for i in self.lista:
-            if (self.__verifica_primo(i)):
-                print('El elemento', i, 'SI es un numero primo')
+        resultados = []  # Creamos una lista para almacenar los resultados
+        for num in self.lista:
+            # Verificamos si el número es primo
+            es_primo = self.es_primo(num)
+            resultados.append(es_primo)  # Agregamos el resultado a la lista de resultados
+        # Iteramos sobre cada número en la lista original y su resultado correspondiente
+        for num, resultado in zip(self.lista, resultados):
+            if resultado:
+                print(f"{num} es un número primo.")
             else:
-                print('El elemento', i, 'NO es un numero primo')
+                print(f"{num} no es un número primo.")
+
+    def es_primo(self, num):
+        if num > 1:
+            # Verificamos si el número es divisible por algún otro número
+            for i in range(2, num):
+                if num % i == 0:
+                    return False
+            return True
+        else:
+            return False
+        
+
+        
+    
+    def valor_modal(self, lista_numeros):
+        frecuencia_numeros = {}
+        for numero in lista_numeros:
+            if numero in frecuencia_numeros:
+                frecuencia_numeros[numero] += 1
+            else:
+                frecuencia_numeros[numero] = 1
+        
+        max_frecuencia = max(frecuencia_numeros.values())
+        numero_mas_repetido = [numero for numero, frecuencia in frecuencia_numeros.items() if frecuencia == max_frecuencia]
+    
+        print(f"El número(s) que más se repite(n) es/son {numero_mas_repetido}, y se repite {max_frecuencia} veces.")
+
+        
 
     def conversion_grados(self, origen, destino):
-        for i in self.lista:
-            print(i, 'grados', origen, 'son', self.__conversion_grados(i, origen, destino),'grados',destino)
-    
-    def factorial(self):
-        for i in self.lista:
-            print('El factorial de ', i, 'es', self.__factorial(i))
-
-    def __verifica_primo(self, nro):
-        es_primo = True
-        for i in range(2, nro):
-            if nro % i == 0:
-                es_primo = False
-                break
-        return es_primo
-
-    def valor_modal(self, menor):
-        lista_unicos = []
-        lista_repeticiones = []
-        if len(self.lista) == 0:
-            return None
-        if (menor):
-            self.lista.sort()
-        else:
-            self.lista.sort(reverse=True)
-        for elemento in self.lista:
-            if elemento in lista_unicos:
-                i = lista_unicos.index(elemento)
-                lista_repeticiones[i] += 1
+        for num in self.lista:
+            valor_destino = None
+            if origen == 'celsius':
+                if destino == 'celsius':
+                    valor_destino = num
+                elif destino == 'farenheit':
+                    valor_destino = (num * 9 / 5) + 32
+                elif destino == 'kelvin':
+                    valor_destino = num + 273.15
+                else:
+                    print('Parámetro de Destino incorrecto')
+            elif origen == 'farenheit':
+                if destino == 'celsius':
+                    valor_destino = (num - 32) * 5 / 9
+                elif destino == 'farenheit':
+                    valor_destino = num
+                elif destino == 'kelvin':
+                    valor_destino = ((num - 32) * 5 / 9) + 273.15
+                else:
+                    print('Parámetro de Destino incorrecto')
+            elif origen == 'kelvin':
+                if destino == 'celsius':
+                    valor_destino = num - 273.15
+                elif destino == 'farenheit':
+                    valor_destino = ((num - 273.15) * 9 / 5) + 32
+                elif destino == 'kelvin':
+                    valor_destino = num
+                else:
+                    print('Parámetro de Destino incorrecto')
             else:
-                lista_unicos.append(elemento)
-                lista_repeticiones.append(1)
-        moda = lista_unicos[0]
-        maximo = lista_repeticiones[0]
-        for i, elemento in enumerate(lista_unicos):
-            if lista_repeticiones[i] > maximo:
-                moda = lista_unicos[i]
-                maximo = lista_repeticiones[i]
-        return moda, maximo
+                print('Parámetro de Origen incorrecto')
+            print(f"{num} grados {origen} son {valor_destino} grados {destino}")
 
-    def __conversion_grados(self, valor, origen, destino):
-        valor_destino = None
-        if (origen == 'celsius'):
-            if (destino == 'celsius'):
-                valor_destino = valor
-            elif (destino == 'farenheit'):
-                valor_destino = (valor * 9 / 5) + 32
-            elif (destino == 'kelvin'):
-                valor_destino = valor + 273.15
-            else:
-                print('Parámetro de Destino incorrecto')
-        elif (origen == 'farenheit'):
-            if (destino == 'celsius'):
-                valor_destino = (valor - 32) * 5 / 9
-            elif (destino == 'farenheit'):
-                valor_destino = valor
-            elif (destino == 'kelvin'):
-                valor_destino = ((valor - 32) * 5 / 9) + 273.15
-            else:
-                print('Parámetro de Destino incorrecto')
-        elif (origen == 'kelvin'):
-            if (destino == 'celsius'):
-                valor_destino = valor - 273.15
-            elif (destino == 'farenheit'):
-                valor_destino = ((valor - 273.15) * 9 / 5) + 32
-            elif (destino == 'kelvin'):
-                valor_destino = valor
-            else:
-                print('Parámetro de Destino incorrecto')
-        else:
-            print('Parámetro de Origen incorrecto')
-        return valor_destino
 
-    def __factorial(self, numero):
-        if(type(numero) != int):
+    def factorial(self, numero):
+        if type(numero) != int:
             return 'El numero debe ser un entero'
-        if(numero < 0):
-            return 'El numero debe ser pisitivo'
-        if (numero > 1):
-            numero = numero * self.__factorial(numero - 1)
+        if numero < 0:
+            return 'El numero debe ser positivo'
+        if numero > 1:
+            numero = numero * self.factorial(numero - 1)
         return numero
+
+    def calcular_factoriales(self):
+        for num in self.lista:
+            print(f"El factorial de {num} es {self.factorial(num)}")
+
+
+  
+        

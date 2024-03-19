@@ -1,0 +1,15 @@
+import datetime  # Importamos el módulo datetime para trabajar con marcas de tiempo
+
+def registrar_datos(temperatura, humedad, llovio):
+    # Obtenemos la marca de tiempo actual
+    marca_tiempo = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Formamos la línea de datos a escribir en el archivo CSV
+    linea_datos = f"{marca_tiempo},{temperatura},{humedad},{llovio}\n"
+
+    # Abrimos el archivo CSV en modo de escritura y agregamos la línea de datos
+    with open("clase09_ej2.csv", "a") as archivo_csv:
+        archivo_csv.write(linea_datos)
+        
+
+
